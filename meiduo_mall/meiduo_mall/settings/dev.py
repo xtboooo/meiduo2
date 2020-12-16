@@ -29,7 +29,6 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'users.apps.UsersConfig',
-
+    'verifications.apps.VerificationsConfig'
 ]
 
 MIDDLEWARE = [
@@ -101,6 +100,18 @@ CACHES = {
         "LOCATION": "redis://192.168.19.131:6379/1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    },
+    "verify_code": {
+        # 验证码信息: 存到 2 号库
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://192.168.19.131:6379/2",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            # 从redis中查询出数据之后，会自动将bytes数据解码为str
+            "CONNECTION_POOL_KWARGS": {
+                'decode_responses': True
+            }
         }
     },
 }
