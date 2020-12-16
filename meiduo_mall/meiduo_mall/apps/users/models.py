@@ -10,3 +10,5 @@ class User(AbstractUser):
     class Meta:
         db_table = "tb_users"
         verbose_name = "用户"
+
+
