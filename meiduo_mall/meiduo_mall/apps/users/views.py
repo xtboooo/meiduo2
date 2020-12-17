@@ -1,6 +1,7 @@
 import json
 import re
 
+from django.contrib.auth import login
 from django.middleware.csrf import get_token
 from django.views import View
 from django.http import JsonResponse
@@ -102,6 +103,9 @@ class RegisterView(View):
             logger.error(e)
             return JsonResponse({'code': 400,
                                  'message': '数据库保存错误!'})
+        # 只要调用login方法,传入request和user对象
+        # login方法就会将user用户的信息存储到session中
+        login(request, user)
 
         # 返回响应
         return JsonResponse({'code': 0,
