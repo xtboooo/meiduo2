@@ -108,8 +108,14 @@ class RegisterView(View):
         login(request, user)
 
         # 返回响应
-        return JsonResponse({'code': 0,
-                             'message': 'OK'})
+        response = JsonResponse({'code': 0,
+                                 'message': 'OK'})
+
+        # 设置cookie保存username用户名
+        response.set_cookie('username',
+                            user.username,
+                            max_age=14 * 24 * 3600)
+        return response
 
 
 # GET /csrf_token/
@@ -161,6 +167,10 @@ class LoginView(View):
             request.session.set_expiry(0)
 
         # 3.返回响应
-        return JsonResponse({'code': 0,
-                             'message': 'OK'})
-
+        response = JsonResponse({'code': 0,
+                                 'message': 'OK'})
+        # cookie 保存 username 用户名
+        response.set_cookie('username',
+                            user.username,
+                            max_age=14 * 24 * 3600)
+        return response
