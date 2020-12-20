@@ -213,3 +213,31 @@ class UserInfoView(LoginRequiredMixin, View):
         return JsonResponse({'code': 0,
                              'message': 'OK',
                              'user': info})
+
+
+# PUT /user/email/
+class UserEmailView(View):
+    def put(self, request):
+        """ 设置用户的个人邮箱 """
+        # 1.获取参数并校验
+        req_data = json.loads(request.body)
+        email = req_data.get('email')
+        if not email:
+            return JsonResponse({'code': 400,
+                                 'message': '缺少email参数!'})
+
+        if not re.match(r'^[a-z0-9][\w\.\-]*@[a-z0-9\-]+(\.[a-z]{2,5}){1,2}$', email):
+            return JsonResponse({'code': 400,
+                                 'message': '参数email有误!'})
+
+        # 2.保存用户的个人邮箱设置
+        user = request.user
+        try:
+            user.email = email
+            user.save()
+        except Exception as e:
+            return JsonResponse({'code': 400,
+                                 'message': 'OK', })
+        # 3.返回响应
+        return JsonResponse({'code': 0,
+                             'message': 'OK'})
