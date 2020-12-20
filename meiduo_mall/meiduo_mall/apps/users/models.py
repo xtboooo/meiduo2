@@ -1,6 +1,9 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from itsdangerous import TimedJSONWebSignatureSerializer
+from django.conf import settings
+
 
 class User(AbstractUser):
     """ 用户模型类 """
@@ -14,3 +17,16 @@ class User(AbstractUser):
     class Meta:
         db_table = "tb_users"
         verbose_name = "用户"
+
+    def generate_verify_email_url(self):
+        """ 生成当前用户的邮件验证链接 """
+        serializer = TimedJSONWebSignatureSerializer(settings.SECRET_KEY, 7200)
+
+        # 用户信息加密,生成token
+        data = {'user_id': self.id,
+                'email': self.email, }
+        token = serializer.dumps(data).decode()
+
+        # 生成邮箱验证链接地址
+        verify_url = settings.EMAIL_VERIFY_URL + token
+        return verify_url

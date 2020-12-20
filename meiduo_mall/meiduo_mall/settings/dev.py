@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'oauth.apps.OauthConfig',
 ]
 
-
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -205,14 +204,12 @@ LOGGING = {
 # 固定格式：AUTH_USER_MODEL = '子应用名.模型类名'
 AUTH_USER_MODEL = 'users.User'
 
-
 # CORS跨域请求白名单设置
 CORS_ORIGIN_WHITELIST = (
     # 将异步跨域请求中，Origin请求头携带的源请求地址添加到此处的白名单中
     'http://www.meiduo.site:8080',
 )
 CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie
-
 
 # QQ登录参数配置
 # QQ 开发者应用的 appid
@@ -221,7 +218,6 @@ QQ_CLIENT_ID = '101474184'
 QQ_CLIENT_SECRET = 'c6ce949e04e12ecc909ae6a8b09b637c'
 # 申请 QQ 开发者应用是，设置的登录成功后回调的路径
 QQ_REDIRECT_URI = 'http://www.meiduo.site:8080/oauth_callback.html'
-
 
 # 邮件发送 SMTP 服务配置
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -235,3 +231,6 @@ EMAIL_HOST_USER = 'xtbo9719@163.com'
 EMAIL_HOST_PASSWORD = 'INBXHZCAIAHGDMNX'
 # 收件人看到的发件人
 EMAIL_FROM = '美多商城<xtbo9719@163.com>'
+
+# 邮箱验证链接：该配置项名字是自己指定的，不固定
+EMAIL_VERIFY_URL = 'http://www.meiduo.site:8080/success_verify_email.html?token='
