@@ -7,6 +7,7 @@ from django.views import View
 from django.http import JsonResponse
 from django_redis import get_redis_connection
 
+from meiduo_mall.utils.mixins import LoginRequiredMixin
 from users.models import User
 
 import logging
@@ -193,12 +194,12 @@ class LogoutView(View):
 
 
 # GET /user/
-class UserInfoView(View):
+class UserInfoView(LoginRequiredMixin, View):
     def get(self, request):
         """ 获取登录用户个人信息 """
-        if not request.user.is_authenticated:
-            return JsonResponse({'code': 400,
-                                 'message': '用户未登录!'})
+        # if not request.user.is_authenticated:
+        #     return JsonResponse({'code': 400,
+        #                          'message': '用户未登录!'})
         # 1.获取登录用户对象
         user = request.user
 
