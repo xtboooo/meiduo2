@@ -21,5 +21,6 @@ urlpatterns = [
     path('', include('users.urls')),
     path('', include('verifications.urls')),
     path('', include('oauth.urls')),
+    path('', include('areas.urls')),
 
 ]
