@@ -196,6 +196,9 @@ class LogoutView(View):
 class UserInfoView(View):
     def get(self, request):
         """ 获取登录用户个人信息 """
+        if not request.user.is_authenticated:
+            return JsonResponse({'code': 400,
+                                 'message': '用户未登录!'})
         # 1.获取登录用户对象
         user = request.user
 
