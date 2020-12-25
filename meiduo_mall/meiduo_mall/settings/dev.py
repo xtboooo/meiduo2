@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'areas.apps.AreasConfig',
     'contents.apps.ContentsConfig',
     'goods.apps.GoodsConfig',
+    'carts.apps.CartsConfig',
 ]
 
 MIDDLEWARE = [
@@ -112,6 +113,18 @@ CACHES = {
         # 验证码信息: 存到 2 号库
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://192.168.19.131:6379/2",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            # 从redis中查询出数据之后，会自动将bytes数据解码为str
+            "CONNECTION_POOL_KWARGS": {
+                'decode_responses': True
+            }
+        }
+    },
+    "cart": {
+        # 购物车数据: 存到 4 号库
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://192.168.19.131:6379/4",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             # 从redis中查询出数据之后，会自动将bytes数据解码为str
@@ -239,7 +252,6 @@ EMAIL_FROM = '美多商城<xtbo9719@163.com>'
 
 # 邮箱验证链接：该配置项名字是自己指定的，不固定
 EMAIL_VERIFY_URL = 'http://www.meiduo.site:8080/success_verify_email.html?token='
-
 
 # 生成的静态 html 文件保存目录
 # BASE_DIR：内层 meiduo_mall 的绝对路径
