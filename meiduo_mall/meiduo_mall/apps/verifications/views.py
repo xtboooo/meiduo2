@@ -20,6 +20,7 @@ class ImageCodeView(View):
         # ① 生成图片验证码数据
         text, image = captcha.generate_captcha()
 
+        print('图片验证码为: %s' % text)
         # ② 将图片验证码存储到redis数据库
         redis_conn = get_redis_connection('verify_code')
         redis_conn.set('img_%s' % uuid, text, 300)
