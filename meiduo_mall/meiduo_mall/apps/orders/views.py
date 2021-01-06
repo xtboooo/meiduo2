@@ -167,8 +167,8 @@ class OrderCommitView(LoginRequiredMixin, View):
                                              'message': '商品库存不足'})
 
                     # 进行休眠操作，让 CPU 调度其它进程或线程，模拟订单并发问题
-                    import time
-                    time.sleep(10)
+                    # import time
+                    # time.sleep(10)
 
                     # 更新商品库存和销量
                     new_stock = origin_stock - count
