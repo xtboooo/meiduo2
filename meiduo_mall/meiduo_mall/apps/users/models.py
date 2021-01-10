@@ -27,6 +27,7 @@ class User(AbstractUser):
     class Meta:
         db_table = "tb_users"
         verbose_name = "用户"
+        ordering = ['id']
 
     def generate_verify_email_url(self):
         """ 生成当前用户的邮件验证链接 """
