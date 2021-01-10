@@ -7,5 +7,6 @@ urlpatterns = [
 
     # 数据统计
     re_path(r'^statistical/day_active/$', statistical.UserDayActiveView.as_view()),
+    re_path(r'^statistical/day_orders/$', statistical.UserDayOrdersView.as_view()),
 
 ]
