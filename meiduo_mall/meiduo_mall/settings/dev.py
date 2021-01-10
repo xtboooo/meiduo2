@@ -304,7 +304,6 @@ ALIPAY_URL = 'https://openapi.alipaydev.com/gateway.do'
 # 用户授权支付后的回调地址
 ALIPAY_RETURN_URL = "http://www.meiduo.site:8080/pay_success.html"
 
-
 REST_FRAMEWORK = {
     # 指定 DRF 框架使用的异常处理函数
     'EXCEPTION_HANDLER': 'meiduo_admin.utils.exceptions.exception_handler',
@@ -313,7 +312,11 @@ REST_FRAMEWORK = {
         # 引入 JWT 认证机制，当客户端将 jwt token 传递给服务器之后
         # 此认证机制会自动校验 jwt token 的有效性，无效会直接返回401(未认证错误)
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        # 全局分页类设置
+
     ),
+    'DEFAULT_PAGINATION_CLASS': 'meiduo_admin.utils.pagination.StandardResultPagination',
+
 }
 # JWT 扩展配置
 JWT_AUTH = {
