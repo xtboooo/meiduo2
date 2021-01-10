@@ -38,3 +38,42 @@ class UserDayOrdersView(APIView):
             'date': now_time.date(),
             'count': count
         })
+
+
+# GET /meiduo_admin/statistical/month_increment/
+class UserMonthCountView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request):
+        """ 30天每日新增用户统计 """
+        # 1.查询数据库统计网站近 30 天每日新增用户数量
+
+        # 结束时间
+        now_time = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
+
+        # 起始时间: now_date - 29天
+        start_time = now_time - timezone.timedelta(days=29)
+
+        # 当天日期
+        current_date = start_time
+
+        # 每日新增用户的数量
+        month_li = []
+
+        while current_date <= now_time:
+            # 次日时间
+            next_date = current_date + timezone.timedelta(days=1)
+
+            # 统计当天的新增用户数量
+            count = User.objects.filter(date_joined__gte=current_date,
+                                        date_joined__lte=next_date).count()
+
+            month_li.append({
+                'count': count,
+                'date': current_date.date()
+            })
+
+            current_date = next_date
+
+        # ② 返回响应数据
+        return Response(month_li)
