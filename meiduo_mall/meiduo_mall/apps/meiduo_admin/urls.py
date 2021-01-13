@@ -21,6 +21,11 @@ urlpatterns = [
     # 权限管理-权限类型数据获取
     re_path(r'^permission/content_types/$', permissions.PermissionViewSet.as_view({
         'get': 'content_types'
+    })),
+
+    # 权限管理-用户组权限简单数据获取
+    re_path(r'^permission/simple/$', permissions.GroupViewSet.as_view({
+        'get': 'simple'
     }))
 
 ]

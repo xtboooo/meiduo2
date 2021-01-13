@@ -4,7 +4,8 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from meiduo_admin.serializers.permissions import PermissionSerializer, ContentTypeSerializer, GroupSerializer
+from meiduo_admin.serializers.permissions import PermissionSerializer, ContentTypeSerializer, GroupSerializer, \
+    PermissionSimpleSerializer
 
 
 class PermissionViewSet(ModelViewSet):
@@ -29,3 +30,13 @@ class GroupViewSet(ModelViewSet):
     # lookup_value_regex = '\d+'
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
+
+    # GET /meiduo_admin/permission/simple/ -> simple
+    def simple(self, request):
+        """获取权限数据"""
+        # 1.获取权限数据
+        permissions = Permission.objects.all()
+
+        # 2.将权限数据序列化并返回
+        serializer = PermissionSimpleSerializer(permissions, many=True)
+        return Response(serializer.data)

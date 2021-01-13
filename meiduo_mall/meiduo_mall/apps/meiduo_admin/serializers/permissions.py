@@ -25,3 +25,11 @@ class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
         fields = '__all__'
+
+
+class PermissionSimpleSerializer(serializers.ModelSerializer):
+    """简单权限数据序列化器类"""
+
+    class Meta:
+        model = Permission
+        fields = ('id', 'name')
