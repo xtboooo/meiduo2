@@ -27,6 +27,9 @@ urlpatterns = [
     # 商品管理-频道管理-获取频道组数据
     re_path(r'^goods/channel_types/$', channels.ChannelTypeView.as_view()),
 
+    # 商品管理-频道管理-获取一二三级商品分类
+    re_path('^goods/categories/$', channels.Category123View.as_view()),
+
     # 权限管理-权限类型数据获取
     re_path(r'^permission/content_types/$', permissions.PermissionViewSet.as_view({
         'get': 'content_types'
