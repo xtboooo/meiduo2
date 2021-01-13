@@ -43,10 +43,25 @@ class GoodsCategory(BaseModel):
         return self.name
 
 
+class GoodsChannelGroup(BaseModel):
+    """商品频道组"""
+    name = models.CharField(max_length=20, verbose_name='频道组名')
+
+    class Meta:
+        db_table = 'tb_channel_group'
+        verbose_name = '商品频道组'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.name
+
+
 class GoodsChannel(BaseModel):
     """商品频道模型"""
     # 当前商品频道属于哪个组
-    group_id = models.IntegerField(verbose_name='组号')
+    # group_id = models.IntegerField(verbose_name='组号')
+    group = models.ForeignKey(GoodsChannelGroup, on_delete=models.SET_NULL,
+                              null=True, verbose_name='频道组名')
     # 频道对应的一级分类id
     category = models.OneToOneField(GoodsCategory,
                                     on_delete=models.CASCADE,
