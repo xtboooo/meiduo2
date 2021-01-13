@@ -1,5 +1,7 @@
+from rest_framework.routers import SimpleRouter
+
 from django.urls import re_path
-from meiduo_admin.views import users, statistical
+from meiduo_admin.views import users, statistical, skus
 
 urlpatterns = [
     # 管理员登陆
@@ -14,3 +16,9 @@ urlpatterns = [
     re_path(r'^users/$', users.UserInfoView.as_view()),
 
 ]
+
+router = SimpleRouter()
+router.register('skus/images', skus.SKUImageViewSet, basename='images')
+urlpatterns += router.urls
+for url in router.urls:
+    print(url)
