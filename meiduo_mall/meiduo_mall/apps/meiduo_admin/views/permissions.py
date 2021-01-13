@@ -5,7 +5,8 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from meiduo_admin.serializers.permissions import PermissionSerializer, ContentTypeSerializer, GroupSerializer, \
-    PermissionSimpleSerializer
+    PermissionSimpleSerializer, AdminSerializer
+from users.models import User
 
 
 class PermissionViewSet(ModelViewSet):
@@ -16,10 +17,10 @@ class PermissionViewSet(ModelViewSet):
 
     def content_types(self, request):
         """获取权限类型数据"""
-        # ① 获取权限类型数据
+        # 1.获取权限类型数据
         content_types = ContentType.objects.all()
 
-        # ② 将权限类型数据序列化并返回
+        # 2.将权限类型数据序列化并返回
         serializer = ContentTypeSerializer(content_types, many=True)
 
         return Response(serializer.data)
@@ -40,3 +41,10 @@ class GroupViewSet(ModelViewSet):
         # 2.将权限数据序列化并返回
         serializer = PermissionSimpleSerializer(permissions, many=True)
         return Response(serializer.data)
+
+
+class AdminViewSet(ModelViewSet):
+    permission_classes = [IsAdminUser]
+    # lookup_value_regex = '\d+'
+    queryset = User.objects.filter(is_staff=True)
+    serializer_class = AdminSerializer

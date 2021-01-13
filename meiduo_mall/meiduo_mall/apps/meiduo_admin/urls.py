@@ -41,6 +41,9 @@ router.register('permission/perms', permissions.PermissionViewSet, basename='per
 # 系统管理-用户组数据管理
 router.register('permission/groups', permissions.GroupViewSet, basename='groups')
 
+# 系统管理-管理员数据管理
+router.register('permission/admins', permissions.AdminViewSet, basename='admins')
+
 urlpatterns += router.urls
-for url in router.urls:
-    print(url)
+# for url in router.urls:
+#     print(url)
