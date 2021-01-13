@@ -1,7 +1,7 @@
 from rest_framework.routers import SimpleRouter
 
 from django.urls import re_path
-from meiduo_admin.views import users, statistical, skus, permissions, channels, spus, specs, options
+from meiduo_admin.views import users, statistical, skus, permissions, channels, spus, specs, options, brands
 
 urlpatterns = [
     # 用户管理-管理员登陆
@@ -83,6 +83,9 @@ router.register('goods/specs', specs.SpecViewSet, basename='specs')
 
 # 商品管理-规格选项管理
 router.register('specs/options', options.OptionViewSet, basename='options')
+
+# 商品管理-品牌管理
+router.register('goods/brands', brands.BrandViewSet, basename='brands')
 
 # 系统管理-权限数据管理
 router.register('permission/perms', permissions.PermissionViewSet, basename='perms')
