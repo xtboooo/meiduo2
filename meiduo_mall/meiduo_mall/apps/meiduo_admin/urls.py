@@ -38,6 +38,12 @@ urlpatterns = [
     # 商品管理-spu商品管理-上传spu图片
     # TODO: 上传spu图片
 
+    # 商品管理-sku商品管理-spu简单信息获取
+    re_path('^goods/simple/$', skus.SPUSimpleView.as_view()),
+
+    # 商品管理-sku管理-spu商品规格信息获取
+    re_path('^goods/(?P<pk>\d+)/specs/$', skus.SPUSpecView.as_view()),
+
     # 权限管理-权限类型数据获取
     re_path(r'^permission/content_types/$', permissions.PermissionViewSet.as_view({
         'get': 'content_types'
