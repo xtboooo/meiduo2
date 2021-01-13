@@ -16,6 +16,7 @@ class PermissionViewSet(ModelViewSet):
     queryset = Permission.objects.all()
     serializer_class = PermissionSerializer
 
+    # GET /meiduo_admin/permission/content_types/ -> content_types
     def content_types(self, request):
         """获取权限类型数据"""
         # 1.获取权限类型数据

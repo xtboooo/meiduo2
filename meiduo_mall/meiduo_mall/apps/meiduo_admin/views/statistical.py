@@ -75,5 +75,16 @@ class UserMonthCountView(APIView):
 
             current_date = next_date
 
-        # ② 返回响应数据
+        # 2.返回响应数据
         return Response(month_li)
+
+
+# GET /meiduo_admin/statistical/total_count/
+class UserTotalCountView(APIView):
+    def get(self, request):
+        now_time = timezone.now()
+        count = User.objects.filter(is_staff=False).count()
+        return Response({
+            'date': now_time.date(),
+            'count': count
+        })
