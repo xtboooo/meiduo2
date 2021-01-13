@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from goods.models import SKUImage, SKU
+from goods.models import SKUImage, SKU, SKUSpecification
 
 
 class SKUImageSerializer(serializers.ModelSerializer):
@@ -38,3 +38,25 @@ class SKUSimpleSerializer(serializers.ModelSerializer):
     class Meta:
         model = SKU
         fields = ('id', 'name')
+
+
+class SKUSpecSerializer(serializers.ModelSerializer):
+    """sku规格序列化器类"""
+    spec_id = serializers.IntegerField(label='规格id')
+    option_id = serializers.IntegerField(label='选项id')
+
+    class Meta:
+        model = SKUSpecification
+        fields = ('spec_id', 'option_id')
+
+
+class SKUSerializer(serializers.ModelSerializer):
+    """sku商品序列化器类"""
+
+    spu_id = serializers.IntegerField(label='商品spu id')
+    category = serializers.StringRelatedField(label='所属第三级分类名称', )
+    specs = SKUSpecSerializer(label='sku规格选项', many=True)
+
+    class Meta:
+        model = SKU
+        exclude = ('create_time', 'update_time', 'comments', 'default_image', 'spu')

@@ -66,6 +66,9 @@ router.register('goods/channels', channels.ChannelViewSet, basename='channels')
 # 商品管理-spu商品管理
 router.register('goods', spus.SPUViewSet, basename='spus')
 
+# 商品管理-sku商品管理
+router.register('skus', skus.SKUViewSet, basename='skus')
+
 # 系统管理-权限数据管理
 router.register('permission/perms', permissions.PermissionViewSet, basename='perms')
 
