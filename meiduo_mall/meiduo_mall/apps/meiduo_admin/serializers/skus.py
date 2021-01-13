@@ -17,7 +17,7 @@ class SKUImageSerializer(serializers.ModelSerializer):
         """针对 sku_id 进行补充验证"""
         # SKU商品是否存在
         try:
-            sku = SKU.objects.get(id=value)
+            SKU.objects.get(id=value)
         except SKU.DoesNotExist:
             raise serializers.ValidationError('SKU商品不存在')
         return value
@@ -115,7 +115,8 @@ class SKUSerializer(serializers.ModelSerializer):
         with transaction.atomic():
             sid = transaction.savepoint()
             try:
-                sku = SKU.objects.create(**validated_data)
+                # sku = SKU.objects.create(**validated_data)
+                sku = super().create(validated_data)
                 for spec in specs:
                     spec_id = spec['spec_id']
                     option_id = spec['option_id']
@@ -127,6 +128,27 @@ class SKUSerializer(serializers.ModelSerializer):
             else:
                 transaction.savepoint_commit(sid)
                 return sku
+
+    def update(self, instance, validated_data):
+        specs = validated_data.pop('specs')
+        with transaction.atomic():
+            sid = transaction.savepoint()
+            try:
+                super().update(instance, validated_data)
+                instance.specs.all().delete()
+
+                for spec in specs:
+                    SKUSpecification.objects.create(
+                        sku_id=instance.id,
+                        spec_id=spec['spec_id'],
+                        option_id=spec['option_id']
+                    )
+            except Exception:
+                transaction.savepoint_rollback(sid)
+                raise DatabaseError('数据保存出错')
+            else:
+                transaction.savepoint_commit(sid)
+                return instance
 
 
 class SPUSimpleSerializer(serializers.ModelSerializer):
