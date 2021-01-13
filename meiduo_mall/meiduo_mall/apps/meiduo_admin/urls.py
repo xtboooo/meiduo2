@@ -24,6 +24,9 @@ urlpatterns = [
     # 图片管理
     re_path(r'^skus/simple/$', skus.SKUSimpleView.as_view()),
 
+    # 商品管理-频道管理-获取频道组数据
+    re_path(r'^goods/channel_types/$', channels.ChannelTypeView.as_view()),
+
     # 权限管理-权限类型数据获取
     re_path(r'^permission/content_types/$', permissions.PermissionViewSet.as_view({
         'get': 'content_types'

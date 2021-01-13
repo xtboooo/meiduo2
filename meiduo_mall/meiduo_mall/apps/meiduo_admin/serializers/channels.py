@@ -1,9 +1,10 @@
 from rest_framework import serializers
 
-from goods.models import GoodsChannel
+from goods.models import GoodsChannel, GoodsChannelGroup
 
 
 class ChannelSerializer(serializers.ModelSerializer):
+    """频道序列化器类"""
     category = serializers.StringRelatedField(label='一级分类名')
     category_id = serializers.IntegerField(label='一级分类id')
     group = serializers.StringRelatedField(label='频道组名')
@@ -12,3 +13,10 @@ class ChannelSerializer(serializers.ModelSerializer):
     class Meta:
         model = GoodsChannel
         exclude = ('create_time', 'update_time')
+
+
+class ChannelTypeSerializer(serializers.ModelSerializer):
+    """频道组序列化器类"""
+    class Meta:
+        model = GoodsChannelGroup
+        fields = ('id', 'name')
