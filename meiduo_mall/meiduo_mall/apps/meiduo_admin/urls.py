@@ -13,6 +13,7 @@ urlpatterns = [
     re_path(r'^statistical/month_increment/$', statistical.UserMonthCountView.as_view()),
     re_path(r'^statistical/total_count/$', statistical.UserTotalCountView.as_view()),
     re_path(r'^statistical/day_increment/$', statistical.UserDayIncreCountView.as_view()),
+    re_path(r'^statistical/goods_day_views/$', statistical.GoodsDayViewsCountView.as_view()),
 
     # 用户管理
     re_path(r'^users/$', users.UserInfoView.as_view()),

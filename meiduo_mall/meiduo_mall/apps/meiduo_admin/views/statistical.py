@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from goods.models import GoodsVisitCount
 from users.models import User
 
 
@@ -99,3 +100,19 @@ class UserDayIncreCountView(APIView):
             'date': now_time.date(),
             'count': count
         })
+
+
+# GET /meiduo_admin/statistical/goods_day_views/
+class GoodsDayViewsCountView(APIView):
+    def get(self, request):
+        goods = GoodsVisitCount.objects.all()
+
+        goods_li = []
+
+        for good in goods:
+            goods_li.append({
+                'category': good.category.name,
+                'count': good.count
+            })
+
+        return Response(goods_li)
