@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from goods.models import SpecificationOption
+from goods.models import SpecificationOption, SPUSpecification
 
 
 class OptionSerializer(serializers.ModelSerializer):
@@ -11,3 +11,11 @@ class OptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = SpecificationOption
         exclude = ('create_time', 'update_time')
+
+
+class SpecSimpleSerializer(serializers.ModelSerializer):
+    """简单规格序列化类"""
+
+    class Meta:
+        model = SPUSpecification
+        fields = ('id', 'name')

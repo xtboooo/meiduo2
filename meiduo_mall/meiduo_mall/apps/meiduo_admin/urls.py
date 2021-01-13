@@ -44,6 +44,9 @@ urlpatterns = [
     # 商品管理-sku管理-spu商品规格信息获取
     re_path('^goods/(?P<pk>\d+)/specs/$', skus.SPUSpecView.as_view()),
 
+    # 商品管理-规格选项管理-简单规格数据获取
+    re_path('^goods/specs/simple/$', options.SpecSimpleView.as_view()),
+
     # 权限管理-权限类型数据获取
     re_path(r'^permission/content_types/$', permissions.PermissionViewSet.as_view({
         'get': 'content_types'
