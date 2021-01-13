@@ -1,15 +1,15 @@
-from django.contrib.auth.models import Permission
+from django.contrib.auth.models import Permission, Group
 from django.contrib.contenttypes.models import ContentType
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from meiduo_admin.serializers.permissions import PermissionSerializer, ContentTypeSerializer
+from meiduo_admin.serializers.permissions import PermissionSerializer, ContentTypeSerializer, GroupSerializer
 
 
 class PermissionViewSet(ModelViewSet):
     permission_classes = [IsAdminUser]
-    lookup_value_regex = '\d+'
+    # lookup_value_regex = '\d+'
     queryset = Permission.objects.all()
     serializer_class = PermissionSerializer
 
@@ -22,3 +22,10 @@ class PermissionViewSet(ModelViewSet):
         serializer = ContentTypeSerializer(content_types, many=True)
 
         return Response(serializer.data)
+
+
+class GroupViewSet(ModelViewSet):
+    permission_classes = [IsAdminUser]
+    # lookup_value_regex = '\d+'
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
