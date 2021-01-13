@@ -72,6 +72,20 @@ class AdminSerializer(serializers.ModelSerializer):
 
         return user
 
+    def update(self, instance, validated_data):
+        """修改管理员用户"""
+        # 从 validated_data 中去除密码 password 数据
+        password = validated_data.pop('password', None)
+
+        # 1.调用 ModelSerializer 中的 update 修改管理员用户的其他数据
+        super().update(instance, validated_data)
+
+        # 2.判断是否需要修改密码
+        if password:
+            instance.set_password(password)
+            instance.save()
+        return instance
+
 
 class GroupSimpleSerializer(serializers.ModelSerializer):
     """用户组简单数据序列化器类"""
