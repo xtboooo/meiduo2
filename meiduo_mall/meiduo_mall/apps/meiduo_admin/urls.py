@@ -23,8 +23,13 @@ urlpatterns = [
         'get': 'content_types'
     })),
 
-    # 权限管理-用户组权限简单数据获取
+    # 用户组管理-权限简单数据获取
     re_path(r'^permission/simple/$', permissions.GroupViewSet.as_view({
+        'get': 'simple'
+    })),
+
+    # 管理员管理-用户组简单数据获取
+    re_path(r'^permission/groups/simple/$', permissions.AdminViewSet.as_view({
         'get': 'simple'
     }))
 
