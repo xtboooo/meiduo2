@@ -16,7 +16,12 @@ urlpatterns = [
     re_path(r'^users/$', users.UserInfoView.as_view()),
 
     # 图片管理
-    re_path(r'^skus/simple/$', skus.SKUSimpleView.as_view())
+    re_path(r'^skus/simple/$', skus.SKUSimpleView.as_view()),
+
+    # 权限管理-权限类型数据获取
+    re_path(r'^permission/content_types/$', permissions.PermissionViewSet.as_view({
+        'get':'content_types'
+    }))
 
 ]
 
