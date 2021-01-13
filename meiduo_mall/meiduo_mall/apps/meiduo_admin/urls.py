@@ -29,6 +29,11 @@ urlpatterns = [
 
     # 商品管理-频道管理-获取一二三级商品分类
     re_path('^goods/categories/$', channels.Category123View.as_view()),
+    re_path('^goods/channel/categories/$', channels.Category123View.as_view()),
+    re_path('^goods/channel/categories/(?P<pk>\d+)/$', channels.Category123View.as_view()),
+
+    # 商品管理-spu商品管理-获取品牌数据
+    re_path('^goods/brands/simple/$', spus.BrandView.as_view()),
 
     # 权限管理-权限类型数据获取
     re_path(r'^permission/content_types/$', permissions.PermissionViewSet.as_view({
