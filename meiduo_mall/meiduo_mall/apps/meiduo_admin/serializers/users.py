@@ -1,3 +1,5 @@
+import re
+
 from rest_framework import serializers
 
 from users.models import User
@@ -66,6 +68,41 @@ class AdminAuthSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     """用户序列化器类"""
+
     class Meta:
         model = User
-        fields = ('id', 'username', 'mobile', 'email')
+        fields = ('id', 'username', 'mobile', 'email', 'password')
+
+        extra_kwargs = {
+            'password': {
+                'write_only': True
+            }
+        }
+
+    def validate(self, attrs):
+        username = attrs.get('username')
+        password = attrs.get('password')
+        mobile = attrs.get('mobile')
+        email = attrs.get('email')
+
+        if not re.match(r'^[a-zA-Z0-9_-]{5,20}$', username):
+            raise serializers.ValidationError('用户名格式不正确')
+
+        if not re.match(r'^[a-zA-Z0-9]{8,20}$', password):
+            raise serializers.ValidationError('password格式错误!')
+
+        if not re.match(r'^1[3-9]\d{9}$', mobile):
+            raise serializers.ValidationError('手机号格式错误!')
+
+        if not re.match(r'^[a-z0-9][\w\.\-]*@[a-z0-9\-]+(\.[a-z]{2,5}){1,2}$', email):
+            raise serializers.ValidationError('邮箱格式错误!')
+
+        return attrs
+
+    def create(self, validated_data):
+        try:
+            user = User.objects.create_user(**validated_data)
+        except:
+            raise Exception('保存数据出错')
+
+        return user

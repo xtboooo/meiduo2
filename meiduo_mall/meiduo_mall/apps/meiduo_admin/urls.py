@@ -4,8 +4,11 @@ from django.urls import re_path
 from meiduo_admin.views import users, statistical, skus, permissions
 
 urlpatterns = [
-    # 管理员登陆
+    # 用户管理-管理员登陆
     re_path(r'^authorizations/$', users.AdminAuthorizeView.as_view()),
+
+    # 用户管理-新增普通用户
+    re_path(r'^users/$', users.UserInfoView.as_view()),
 
     # 数据统计
     re_path(r'^statistical/day_active/$', statistical.UserDayActiveView.as_view()),

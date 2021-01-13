@@ -1,4 +1,4 @@
-from rest_framework.generics import CreateAPIView, GenericAPIView, ListAPIView
+from rest_framework.generics import CreateAPIView, GenericAPIView, ListAPIView, ListCreateAPIView
 from rest_framework import mixins
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
@@ -28,7 +28,7 @@ class AdminAuthorizeView(CreateAPIView):
 
 
 # GET /meiduo_admin/?page=<页码>&pagesize=<页容量>&keyword=<搜索内容>
-class UserInfoView(ListAPIView):
+class UserInfoView(ListCreateAPIView):
     # 指定权限：只有管理员用户才能进行访问
     permission_classes = [IsAdminUser]
     serializer_class = UserSerializer
