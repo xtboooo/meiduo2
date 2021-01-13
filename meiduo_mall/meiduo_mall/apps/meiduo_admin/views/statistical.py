@@ -88,3 +88,14 @@ class UserTotalCountView(APIView):
             'date': now_time.date(),
             'count': count
         })
+
+
+# GET /meiduo_admin/statistical/day_increment/
+class UserDayIncreCountView(APIView):
+    def get(self, request):
+        now_time = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
+        count = User.objects.filter(date_joined__gte=now_time).count()
+        return Response({
+            'date': now_time.date(),
+            'count': count
+        })
