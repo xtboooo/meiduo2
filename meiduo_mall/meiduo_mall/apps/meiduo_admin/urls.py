@@ -15,6 +15,9 @@ urlpatterns = [
     # 用户管理
     re_path(r'^users/$', users.UserInfoView.as_view()),
 
+    # 图片管理
+    re_path(r'^skus/simple/$', skus.SKUSimpleView.as_view())
+
 ]
 
 router = SimpleRouter()
