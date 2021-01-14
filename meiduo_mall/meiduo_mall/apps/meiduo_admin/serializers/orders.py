@@ -28,5 +28,5 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OrderInfo
-        # fields = ('order_id', 'create_time')
         exclude = ('update_time', 'address')
+

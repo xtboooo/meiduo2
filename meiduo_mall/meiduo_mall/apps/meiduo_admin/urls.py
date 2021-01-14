@@ -100,5 +100,5 @@ router.register('permission/groups', permissions.GroupViewSet, basename='groups'
 router.register('permission/admins', permissions.AdminViewSet, basename='admins')
 
 urlpatterns += router.urls
-# for url in router.urls:
-#     print(url)
+for url in router.urls:
+    print(url)
