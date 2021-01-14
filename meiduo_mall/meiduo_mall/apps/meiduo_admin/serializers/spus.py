@@ -55,3 +55,7 @@ class BrandSerializer(serializers.ModelSerializer):
     class Meta:
         model = Brand
         fields = ('id', 'name')
+
+
+class SPUImageSerializer(serializers.Serializer):
+    image = serializers.ImageField(label='spu图片', write_only=True)
