@@ -15,6 +15,7 @@ class SPUViewSet(ModelViewSet):
     queryset = SPU.objects.all()
     serializer_class = SPUSerializer
 
+    # POST /meiduo_admin/goods/images/ -> images
     @action(methods=['post'], detail=False)
     def images(self, request):
         serializer = SPUImageSerializer(data=request.data)

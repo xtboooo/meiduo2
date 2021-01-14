@@ -35,9 +35,6 @@ urlpatterns = [
     # 商品管理-spu商品管理-获取品牌数据
     re_path('^goods/brands/simple/$', spus.BrandView.as_view()),
 
-    # 商品管理-spu商品管理-上传spu图片
-    # TODO: 上传spu图片
-
     # 商品管理-sku商品管理-spu简单信息获取
     re_path('^goods/simple/$', skus.SPUSimpleView.as_view()),
 
