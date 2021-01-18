@@ -33,20 +33,33 @@ class SPUSerializer(serializers.ModelSerializer):
         except Brand.DoesNotExist:
             raise serializers.ValidationError('brand_id参数有误')
 
+        # 一级分类是否存在
         try:
-            category1 = GoodsCategory.objects.get(id=category1_id, parent_id=None)
+            cate = GoodsCategory.objects.get(id=category1_id, parent_id=None)
         except GoodsCategory.DoesNotExist:
             raise serializers.ValidationError('category1_id参数有误')
 
-        try:
-            category2 = GoodsCategory.objects.get(id=category2_id, parent_id__in=list(range(1, 38)))
-        except GoodsCategory.DoesNotExist:
-            raise serializers.ValidationError('category2_id参数有误')
+        # try:
+        #     category2 = GoodsCategory.objects.get(id=category2_id, parent_id__in=list(range(1, 38)))
+        # except GoodsCategory.DoesNotExist:
+        #     raise serializers.ValidationError('category2_id参数有误')
+        #
+        # try:
+        #     category3 = GoodsCategory.objects.get(id=category3_id, parent_id__in=list(range(38, 115)))
+        # except GoodsCategory.DoesNotExist:
+        #     raise serializers.ValidationError('category3_id参数有误')
 
-        try:
-            category3 = GoodsCategory.objects.get(id=category3_id, parent_id__in=list(range(38, 115)))
-        except GoodsCategory.DoesNotExist:
-            raise serializers.ValidationError('category3_id参数有误')
+        # 二级分类是否有误
+        sub_ids = [col[0] for col in cate.subs.values_list('id')]
+
+        if category2_id not in sub_ids:
+            raise serializers.ValidationError('二级分类信息有误！！！')
+
+        cate = GoodsCategory.objects.get(id=category2_id)
+        sub_ids = [col[0] for col in cate.subs.values_list('id')]
+
+        if category3_id not in sub_ids:
+            raise serializers.ValidationError('三级分类信息有误！！！')
 
         return attrs
 

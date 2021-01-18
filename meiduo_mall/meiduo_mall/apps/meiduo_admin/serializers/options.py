@@ -12,6 +12,13 @@ class OptionSerializer(serializers.ModelSerializer):
         model = SpecificationOption
         exclude = ('create_time', 'update_time')
 
+    def validate_spec_id(self, value):
+        try:
+            SPUSpecification.objects.get(id=value)
+        except SpecificationOption.DoesNotExist:
+            raise serializers.ValidationError('规格数据不存在')
+        return value
+
 
 class SpecSimpleSerializer(serializers.ModelSerializer):
     """简单规格序列化类"""

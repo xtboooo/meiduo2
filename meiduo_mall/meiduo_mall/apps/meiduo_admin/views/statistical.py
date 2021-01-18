@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from goods.models import GoodsVisitCount
+from meiduo_admin.serializers.statistical import GoodsVisitSerializer
 from users.models import User
 
 
@@ -82,6 +83,8 @@ class UserMonthCountView(APIView):
 
 # GET /meiduo_admin/statistical/total_count/
 class UserTotalCountView(APIView):
+    permission_classes = [IsAdminUser]
+
     def get(self, request):
         now_time = timezone.now()
         count = User.objects.filter(is_staff=False).count()
@@ -93,9 +96,11 @@ class UserTotalCountView(APIView):
 
 # GET /meiduo_admin/statistical/day_increment/
 class UserDayIncreCountView(APIView):
+    permission_classes = [IsAdminUser]
+
     def get(self, request):
         now_time = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
-        count = User.objects.filter(date_joined__gte=now_time).count()
+        count = User.objects.filter(is_staff=False, date_joined__gte=now_time).count()
         return Response({
             'date': now_time.date(),
             'count': count
@@ -104,15 +109,20 @@ class UserDayIncreCountView(APIView):
 
 # GET /meiduo_admin/statistical/goods_day_views/
 class GoodsDayViewsCountView(APIView):
+    permission_classes = [IsAdminUser]
+
     def get(self, request):
-        goods = GoodsVisitCount.objects.all()
+        goods_visits = GoodsVisitCount.objects.all()
+        now_date = timezone.now().date()
 
-        goods_li = []
-
-        for good in goods:
-            goods_li.append({
-                'category': good.category.name,
-                'count': good.count
-            })
-
-        return Response(goods_li)
+        # goods_li = []
+        #
+        # for good in goods:
+        #     goods_li.append({
+        #         'category': good.category.name,
+        #         'count': good.count
+        #     })
+        #
+        # return Response(goods_li)
+        serializer = GoodsVisitSerializer(goods_visits, many=True)
+        return Response(serializer.data)

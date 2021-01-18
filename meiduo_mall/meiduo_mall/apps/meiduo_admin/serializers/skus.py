@@ -122,7 +122,6 @@ class SKUSerializer(serializers.ModelSerializer):
                     option_id = spec['option_id']
                     SKUSpecification.objects.create(sku=sku, spec_id=spec_id, option_id=option_id)
             except Exception as e:
-                print(e)
                 transaction.savepoint_rollback(sid)
                 raise DatabaseError('数据库保存错误')
             else:

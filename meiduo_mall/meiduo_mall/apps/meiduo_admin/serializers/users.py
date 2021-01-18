@@ -31,14 +31,14 @@ class AdminAuthSerializer(serializers.ModelSerializer):
 
         # 进行用户名和密码校验
         try:
-            user = User.objects.get(username=username)
+            user = User.objects.get(username=username, is_staff=True)
         except User.DoesNotExist:
             raise serializers.ValidationError('用户名或密码错误')
         else:
             if not user.check_password(password):
                 raise serializers.ValidationError('用户名或密码错误')
 
-            attrs['user'] = user
+        attrs['user'] = user
 
         return attrs
 
@@ -94,15 +94,16 @@ class UserSerializer(serializers.ModelSerializer):
         if not re.match(r'^1[3-9]\d{9}$', mobile):
             raise serializers.ValidationError('手机号格式错误!')
 
+        # 手机号唯一
+        count = User.objects.filter(mobile=mobile).count()
+        if count:
+            raise serializers.ValidationError('手机号已存在')
+
         if not re.match(r'^[a-z0-9][\w\.\-]*@[a-z0-9\-]+(\.[a-z]{2,5}){1,2}$', email):
             raise serializers.ValidationError('邮箱格式错误!')
 
         return attrs
 
     def create(self, validated_data):
-        try:
-            user = User.objects.create_user(**validated_data)
-        except:
-            raise Exception('保存数据出错')
-
+        user = User.objects.create_user(**validated_data)
         return user

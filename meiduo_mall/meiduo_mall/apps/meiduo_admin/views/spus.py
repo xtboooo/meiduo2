@@ -7,6 +7,7 @@ from rest_framework.generics import ListAPIView
 from rest_framework.decorators import action
 from goods.models import SPU, Brand
 from meiduo_admin.serializers.spus import SPUSerializer, BrandSerializer, SPUImageSerializer
+from meiduo_mall.utils.fastdfs.storage import FastDFSStorage
 
 
 class SPUViewSet(ModelViewSet):
@@ -21,14 +22,15 @@ class SPUViewSet(ModelViewSet):
         serializer = SPUImageSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        client = Fdfs_client(settings.FDFS_CLIENT_CONF)
-        res = client.upload_by_buffer(request.data.get('image').read())
-        if res.get('Status') != 'Upload successed.':
-            raise Exception('上传文件到FDFS失败')
-        file_id = res.get('Remote file_id')
+        image = request.FILES.get('image')
+
+        fdfs = FastDFSStorage()
+        file_id = fdfs.save(image.name, image)
+
+        img_url = fdfs.url(file_id)
 
         return Response({
-            'img_url': settings.FDFS_URL + file_id
+            'img_url': img_url
         })
 
 
